@@ -1,0 +1,20 @@
+logging:
+  console: true
+  root: WARN
+  level:
+    io.qalipsis: INFO
+
+events:
+  root: WARN
+  level:
+
+
+  export:
+    enabled: true
+    slf4j:
+      enabled: true
+
+meters:
+  export:
+    enabled: false
+
