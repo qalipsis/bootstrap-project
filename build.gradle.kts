@@ -37,34 +37,34 @@ kapt {
     includeCompileClasspath = true
 }
 
-val platformVersion = "0.5.e-SNAPSHOT"
+val platformVersion = "0.6.a-SNAPSHOT"
 dependencies {
     implementation(platform("io.qalipsis:qalipsis-platform:${platformVersion}"))
-    implementation("io.qalipsis:api-processors")
+    implementation("io.qalipsis:qalipsis-api-processors")
     kapt(platform("io.qalipsis:qalipsis-platform:${platformVersion}"))
-    kapt("io.qalipsis:api-processors")
+    kapt("io.qalipsis:qalipsis-api-processors")
 
-    implementation("io.qalipsis:head")
-    implementation("io.qalipsis:factory")
-    implementation("io.qalipsis:runtime")
+    implementation("io.qalipsis:qalipsis-head")
+    implementation("io.qalipsis:qalipsis-factory")
+    implementation("io.qalipsis:qalipsis-runtime")
 
     // Uncomment required plugins
-//    implementation("io.qalipsis.plugin:cassandra")
-//    implementation("io.qalipsis.plugin:elasticsearch")
-//    implementation("io.qalipsis.plugin:graphite")
-//    implementation("io.qalipsis.plugin:influxdb")
-//    implementation("io.qalipsis.plugin:jackson")
-//    implementation("io.qalipsis.plugin:jakarta-ee-messaging")
-//    implementation("io.qalipsis.plugin:jms")
-//    implementation("io.qalipsis.plugin:kafka")
-//    implementation("io.qalipsis.plugin:mail")
-//    implementation("io.qalipsis.plugin:mongodb")
-//    implementation("io.qalipsis.plugin:netty")
-//    implementation("io.qalipsis.plugin:r2dbc-jasync")
-//    implementation("io.qalipsis.plugin:rabbitmq")
-//    implementation("io.qalipsis.plugin:redis-lettuce")
-//    implementation("io.qalipsis.plugin:slack")
-//    implementation("io.qalipsis.plugin:timescaledb")
+//    implementation("io.qalipsis.plugin:qalipsis-plugin-cassandra")
+//    implementation("io.qalipsis.plugin:qalipsis-plugin-elasticsearch")
+//    implementation("io.qalipsis.plugin:qalipsis-plugin-graphite")
+//    implementation("io.qalipsis.plugin:qalipsis-plugin-influxdb")
+//    implementation("io.qalipsis.plugin:qalipsis-plugin-jackson")
+//    implementation("io.qalipsis.plugin:qalipsis-plugin-jakarta-ee-messaging")
+//    implementation("io.qalipsis.plugin:qalipsis-plugin-jms")
+//    implementation("io.qalipsis.plugin:qalipsis-plugin-kafka")
+//    implementation("io.qalipsis.plugin:qalipsis-plugin-mail")
+//    implementation("io.qalipsis.plugin:qalipsis-plugin-mongodb")
+//    implementation("io.qalipsis.plugin:qalipsis-plugin-netty")
+//    implementation("io.qalipsis.plugin:qalipsis-plugin-r2dbc-jasync")
+//    implementation("io.qalipsis.plugin:qalipsis-plugin-rabbitmq")
+//    implementation("io.qalipsis.plugin:qalipsis-plugin-redis-lettuce")
+//    implementation("io.qalipsis.plugin:qalipsis-plugin-slack")
+//    implementation("io.qalipsis.plugin:qalipsis-plugin-timescaledb")
 }
 
 application {
