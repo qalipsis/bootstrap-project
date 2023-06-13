@@ -5,8 +5,8 @@ plugins {
     idea
     java
     application
-    kotlin("jvm") version "1.6.21"
-    kotlin("kapt") version "1.6.21"
+    kotlin("jvm") version "1.8.21"
+    kotlin("kapt") version "1.8.21"
 
     id("com.palantir.docker") version "0.28.0"
     id("com.github.johnrengelman.shadow") version "7.1.2"
@@ -37,7 +37,7 @@ kapt {
     includeCompileClasspath = true
 }
 
-val platformVersion = "0.6.a-SNAPSHOT"
+val platformVersion = "0.7.a-SNAPSHOT"
 dependencies {
     implementation(platform("io.qalipsis:qalipsis-platform:${platformVersion}"))
     implementation("io.qalipsis:qalipsis-api-processors")
