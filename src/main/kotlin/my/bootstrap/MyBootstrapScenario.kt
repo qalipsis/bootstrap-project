@@ -1,7 +1,6 @@
 package my.bootstrap
 
 import io.qalipsis.api.annotations.Scenario
-import io.qalipsis.api.executionprofile.stages
 import io.qalipsis.api.scenario.scenario
 
 /**
@@ -9,16 +8,12 @@ import io.qalipsis.api.scenario.scenario
  */
 class MyBootstrapScenario {
 
-    @Scenario("my-scenario")
+    @Scenario(name = "my-new-scenario", description = "It does something extraordinary", version = "0.1")
     fun myBootstrapScenario() {
         scenario {
-            minionsCount = 1000
+            minionsCount = 100
             profile {
-                stages {
-                    stage(minionsCount = 200, rampUpDurationMs = 4000, totalDurationMs = 10000, resolutionMs = 500)
-                    stage(minionsCount = 300, rampUpDurationMs = 6000, totalDurationMs = 20000, resolutionMs = 500)
-                    stage(minionsCount = 500, rampUpDurationMs = 10000, totalDurationMs = 30000, resolutionMs = 500)
-                }
+
             }
         }
             .start()

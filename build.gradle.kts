@@ -1,14 +1,11 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import io.qalipsis.gradle.bootstrap.tasks.RunQalipsis
+import org.gradle.api.internal.artifacts.dependencies.DefaultExternalModuleDependency
 
 plugins {
-    idea
-    java
-    application
-    kotlin("jvm") version "1.8.21"
-    kotlin("kapt") version "1.8.21"
+    id("io.qalipsis.bootstrap") version "0.1.0"
 
-    id("com.palantir.docker") version "0.28.0"
+    id("com.palantir.docker") version "0.35.0"
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
@@ -17,68 +14,23 @@ description = "QALIPSIS My bootstrap"
 group = "org.example"
 version = "1.0-SNAPSHOT"
 
-val target = JavaVersion.VERSION_11
+qalipsis {
+    // You can override the version of QALIPSIS to use by the Gradle plugin.
+    //version("0.10.1")
 
-java {
-    sourceCompatibility = target
-    targetCompatibility = target
-}
-
-repositories {
-    mavenLocal()
-    mavenCentral()
-    maven {
-        name = "maven-central-snapshots"
-        setUrl("https://oss.sonatype.org/content/repositories/snapshots")
+    plugins {
+        // Configure here the plugins you want to use.
+        // for example: apacheCassandra()
     }
 }
 
-kapt {
-    includeCompileClasspath = true
-}
-
-val platformVersion = "0.7.a-SNAPSHOT"
 dependencies {
-    implementation(platform("io.qalipsis:qalipsis-platform:${platformVersion}"))
-    implementation("io.qalipsis:qalipsis-api-processors")
-    kapt(platform("io.qalipsis:qalipsis-platform:${platformVersion}"))
-    kapt("io.qalipsis:qalipsis-api-processors")
-
-    implementation("io.qalipsis:qalipsis-head")
-    implementation("io.qalipsis:qalipsis-factory")
-    implementation("io.qalipsis:qalipsis-runtime")
-
-    // Uncomment required plugins
-//    implementation("io.qalipsis.plugin:qalipsis-plugin-cassandra")
-//    implementation("io.qalipsis.plugin:qalipsis-plugin-elasticsearch")
-//    implementation("io.qalipsis.plugin:qalipsis-plugin-graphite")
-//    implementation("io.qalipsis.plugin:qalipsis-plugin-influxdb")
-//    implementation("io.qalipsis.plugin:qalipsis-plugin-jackson")
-//    implementation("io.qalipsis.plugin:qalipsis-plugin-jakarta-ee-messaging")
-//    implementation("io.qalipsis.plugin:qalipsis-plugin-jms")
-//    implementation("io.qalipsis.plugin:qalipsis-plugin-kafka")
-//    implementation("io.qalipsis.plugin:qalipsis-plugin-mail")
-//    implementation("io.qalipsis.plugin:qalipsis-plugin-mongodb")
-//    implementation("io.qalipsis.plugin:qalipsis-plugin-netty")
-//    implementation("io.qalipsis.plugin:qalipsis-plugin-r2dbc-jasync")
-//    implementation("io.qalipsis.plugin:qalipsis-plugin-rabbitmq")
-//    implementation("io.qalipsis.plugin:qalipsis-plugin-redis-lettuce")
-//    implementation("io.qalipsis.plugin:qalipsis-plugin-slack")
-//    implementation("io.qalipsis.plugin:qalipsis-plugin-timescaledb")
+    // Add your own dependencies.
+    //implementation("com.willowtreeapps.assertk:assertk:0.+")
 }
 
-application {
-    mainClass.set("io.qalipsis.runtime.Qalipsis")
-}
 
 tasks {
-    withType<KotlinCompile>().configureEach {
-        kotlinOptions {
-            jvmTarget = JavaVersion.VERSION_11.majorVersion
-            javaParameters = true
-        }
-    }
-    
     named<ShadowJar>("shadowJar") {
         mergeServiceFiles()
         archiveClassifier.set("qalipsis")
@@ -87,6 +39,25 @@ tasks {
     build {
         dependsOn(shadowJar)
     }
+
+    named<RunQalipsis>("qalipsisRunAllScenarios") {
+        // Configures the default task to execute all the scenarios.
+        //    configuration(
+        //        "report.export.junit.enabled" to "true",
+        //        "report.export.junit.folder" to project.layout.buildDirectory.dir("test-results/my-new-scenario")
+        //            .get().asFile.path
+        //    )
+    }
+
+    //create("executeMyNewScenario", RunQalipsis::class.java) {
+    //    scenarios("my-new-scenario")
+    //    configuration(
+    //        "report.export.junit.enabled" to "true",
+    //        "report.export.junit.folder" to project.layout.buildDirectory.dir("test-results/my-new-scenario")
+    //            .get().asFile.path
+    //    )
+    //}
+
 }
 
 val shadowJarName = "${project.name}-${project.version}-qalipsis.jar"
@@ -97,14 +68,4 @@ docker {
     noCache(true)
     files("build/libs/$shadowJarName", "src/main/docker/entrypoint.sh")
     buildArgs(mapOf("JAR_NAME" to shadowJarName))
-}
-
-task<JavaExec>("runScenarios") {
-    group = "application"
-    description = "Start a campaign with all the scenarios"
-    mainClass.set("io.qalipsis.runtime.Qalipsis")
-    maxHeapSize = "256m"
-    args("--autostart", "-c", "report.export.console.enabled=true")
-    workingDir = projectDir
-    classpath = sourceSets["main"].runtimeClasspath
 }

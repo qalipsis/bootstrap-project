@@ -26,26 +26,10 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
 
-      - name: Cache Gradle packages
-        uses: actions/cache@v2
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-qalipsis-gradle-${{ hashFiles('**/*.gradle') }}
-          restore-keys: ${{ runner.os }}-qalipsis-gradle-
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@v1.0.4
 
-      - name: Cache Gradle wrapper
-        uses: actions/cache@v2
+      - name: Build
+        uses: gradle/gradle-build-action@v2.2.0
         with:
-          path: ~/.gradle/wrapper
-          key: ${{ runner.os }}-qalipsis-gradle-wrapper-${{ hashFiles('**/*.gradle') }}
-          restore-keys: ${{ runner.os }}-qalipsis-gradle-wrapper-
-
-      - name: Compile
-        run: ./gradlew clean build
-
-      - name: Upload JARs
-        uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: Jars
-          path: ./**/build/libs/*-qalipsis.jar
+          arguments: clean build --refresh-dependencies
