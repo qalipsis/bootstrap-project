@@ -1,22 +1,21 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import io.qalipsis.gradle.bootstrap.tasks.RunQalipsis
-import org.gradle.api.internal.artifacts.dependencies.DefaultExternalModuleDependency
 
 plugins {
-    id("io.qalipsis.bootstrap") version "0.1.0"
+    id("io.qalipsis.bootstrap") version "0.1.3"
 
     id("com.palantir.docker") version "0.35.0"
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
-description = "QALIPSIS My bootstrap"
+description = "QALIPSIS - My bootstrap"
 
 group = "org.example"
 version = "1.0-SNAPSHOT"
 
 qalipsis {
     // You can override the version of QALIPSIS to use by the Gradle plugin.
-    //version("0.10.1")
+    //version("1.0.0")
 
     plugins {
         // Configure here the plugins you want to use.
@@ -28,7 +27,6 @@ dependencies {
     // Add your own dependencies.
     //implementation("com.willowtreeapps.assertk:assertk:0.+")
 }
-
 
 tasks {
     named<ShadowJar>("shadowJar") {
