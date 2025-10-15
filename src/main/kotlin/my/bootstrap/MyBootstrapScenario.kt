@@ -2,6 +2,7 @@ package my.bootstrap
 
 import io.qalipsis.api.annotations.Scenario
 import io.qalipsis.api.scenario.scenario
+import io.qalipsis.api.steps.returns
 
 /**
  * A skeleton of scenario.
@@ -18,6 +19,7 @@ class MyBootstrapScenario {
         }
             .start()
         // Develop your scenario here.
+            .returns(1)
     }
 }
 
