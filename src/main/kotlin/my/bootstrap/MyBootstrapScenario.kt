@@ -18,8 +18,8 @@ class MyBootstrapScenario {
             }
         }
             .start()
-        // Develop your scenario here.
-            .returns(1)
+            // Develop your scenario here.
+            .returns { "You should replace this step by something more useful" }
     }
 }
 
