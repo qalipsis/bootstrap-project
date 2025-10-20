@@ -2,7 +2,7 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import io.qalipsis.gradle.bootstrap.tasks.RunQalipsis
 
 plugins {
-    id("io.qalipsis.bootstrap") version "0.1.3"
+    id("io.qalipsis.bootstrap") version "0.1.4"
 
     id("com.palantir.docker") version "0.35.0"
     id("com.github.johnrengelman.shadow") version "7.1.2"

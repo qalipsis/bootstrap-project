@@ -19,7 +19,7 @@ class MyBootstrapScenario {
         }
             .start()
             // Develop your scenario here.
-            .returns { "You should replace this step by something more useful" }
+            .returns { "Hello QALIPSIS!!!" }
     }
 }
 
