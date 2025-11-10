@@ -58,12 +58,12 @@ tasks {
 
 }
 
-val shadowJarName = "${project.name}-${project.version}-qalipsis.jar"
-
 docker {
     name = "my-company/qalipsis-bootstrap"
     setDockerfile(project.file("src/main/docker/Dockerfile"))
     noCache(true)
-    files("build/libs/$shadowJarName", "src/main/docker/entrypoint.sh")
-    buildArgs(mapOf("JAR_NAME" to shadowJarName))
+    files("build/install/${project.name}")
+}
+tasks.named("dockerPrepare") {
+    dependsOn("installDist")
 }
