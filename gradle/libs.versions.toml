@@ -1,0 +1,22 @@
+[versions]
+qalipsis-gradle = "0.1.5"
+bmuschko-docker = "9.4.0"
+shadow = "7.1.2"
+kotest = "5.9.1"
+junit-jupiter = "5.10.3"
+testcontainers = "1.20.2"
+
+[libraries]
+kotest-assertions-core = { module = "io.kotest:kotest-assertions-core-jvm", version.ref = "kotest" }
+kotest-assertions-json = { module = "io.kotest:kotest-assertions-json-jvm", version.ref = "kotest" }
+kotest-runner-junit5   = { module = "io.kotest:kotest-runner-junit5-jvm",   version.ref = "kotest" }
+junit-jupiter          = { module = "org.junit.jupiter:junit-jupiter",      version.ref = "junit-jupiter" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version = "1.10.3" }
+testcontainers              = { module = "org.testcontainers:testcontainers", version.ref = "testcontainers" }
+testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter",  version.ref = "testcontainers" }
+
+[plugins]
+qalipsis-bootstrap = { id = "io.qalipsis.bootstrap", version.ref = "qalipsis-gradle" }
+qalipsis-cloud     = { id = "io.qalipsis.cloud",     version.ref = "qalipsis-gradle" }
+bmuschko-docker    = { id = "com.bmuschko.docker-remote-api", version.ref = "bmuschko-docker" }
+shadow             = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }

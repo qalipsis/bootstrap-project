@@ -1,15 +1,20 @@
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+import com.bmuschko.gradle.docker.tasks.image.DockerPushImage
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import io.qalipsis.gradle.bootstrap.tasks.RunQalipsis
 
 plugins {
-    id("io.qalipsis.bootstrap") version "0.1.4"
+    alias(libs.plugins.qalipsis.bootstrap)
+    // Uncomment to publish your scenarios to QALIPSIS Cloud (see docs/cloud.md).
+    // alias(libs.plugins.qalipsis.cloud)
 
-    id("com.palantir.docker") version "0.35.0"
-    id("com.github.johnrengelman.shadow") version "7.1.2"
+    alias(libs.plugins.bmuschko.docker)
+    alias(libs.plugins.shadow)
 }
 
 description = "QALIPSIS - My bootstrap"
 
+// `./scripts/init.sh` will rewrite these for your project.
 group = "org.example"
 version = "1.0-SNAPSHOT"
 
@@ -20,18 +25,40 @@ qalipsis {
     plugins {
         // Configure here the plugins you want to use.
         // for example: apacheCassandra()
+        http()
     }
 }
 
 dependencies {
-    // Add your own dependencies.
-    //implementation("com.willowtreeapps.assertk:assertk:0.+")
+    // Add your own runtime dependencies here.
+
+    testImplementation(testFixtures("io.qalipsis:qalipsis-runtime"))
+    // Test stack: JUnit 5 (engine for plain @Test classes) + kotest (assertions + spec engine).
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.kotest.assertions.core)
+    testImplementation(libs.kotest.assertions.json)
+    testImplementation(libs.kotest.runner.junit5)
+    // Testcontainers — spin up the mock backend (httpbin) for the integration test.
+    testImplementation(libs.testcontainers)
+    testImplementation(libs.testcontainers.junit.jupiter)
+    // Required at runtime since JUnit Platform 1.10 / Gradle 8.5+.
+    testRuntimeOnly(libs.junit.platform.launcher)
+}
+
+tasks.named<Test>("test") {
+    useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
 }
 
 tasks {
     named<ShadowJar>("shadowJar") {
         mergeServiceFiles()
         archiveClassifier.set("qalipsis")
+        // QALIPSIS pulls in enough transitive deps that the fat-JAR exceeds the standard
+        // 65 535-entry ZIP limit. Zip64 lifts that cap.
+        isZip64 = true
     }
 
     build {
@@ -58,12 +85,36 @@ tasks {
 
 }
 
-docker {
-    name = "my-company/qalipsis-bootstrap"
-    setDockerfile(project.file("src/main/docker/Dockerfile"))
-    noCache(true)
-    files("build/install/${project.name}")
-}
-tasks.named("dockerPrepare") {
+// Docker image — driven by the bmuschko docker-remote-api plugin.
+// Task names (`docker`, `dockerPush`, `dockerPrepare`) match the historical Palantir naming
+// so existing CI scripts and run configurations keep working.
+//
+// `./scripts/init.sh` will rewrite the image name for your project.
+val dockerImageName = "my-company/qalipsis-bootstrap"
+val dockerStagingDir = layout.buildDirectory.dir("docker")
+
+val dockerPrepare = tasks.register<Sync>("dockerPrepare") {
+    group = "docker"
+    description = "Stages the Dockerfile and the installed distribution under build/docker."
     dependsOn("installDist")
+    from(layout.buildDirectory.dir("install/${project.name}"))
+    from("src/main/docker/Dockerfile")
+    into(dockerStagingDir)
+}
+
+val dockerBuild = tasks.register<DockerBuildImage>("dockerBuild") {
+    group = "docker"
+    description = "Builds the Docker image containing the QALIPSIS scenarios."
+    dependsOn(dockerPrepare)
+    inputDir.set(dockerStagingDir)
+    images.add("$dockerImageName:${project.version.toString().lowercase()}")
+    images.add("$dockerImageName:latest")
+    noCache.set(true)
+}
+
+tasks.register<DockerPushImage>("dockerPush") {
+    group = "docker"
+    description = "Pushes the Docker image to the configured registry."
+    dependsOn(dockerBuild)
+    images.set(dockerBuild.flatMap { it.images })
 }
