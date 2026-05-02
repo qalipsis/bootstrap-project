@@ -44,7 +44,7 @@ jobs:
 
       - name: Upload distribution archive
         if: matrix.os == 'ubuntu-latest' && matrix.java == '11'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: scenarios-dist
           path: build/distributions/*.zip
