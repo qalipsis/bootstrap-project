@@ -1,10 +1,11 @@
-# Compiled class file
+# Compiled output
 *.class
+out/
+bin/
 
-# Temporary files
-*.tmp
-
-# Package Files #
+# Build artifacts
+/build/
+/.gradle/
 *.jar
 *.war
 *.nar
@@ -13,11 +14,31 @@
 *.tar.gz
 *.rar
 
-# Gradle
-/.gradle/
-/build/
+# Kotlin
+.kotlin/
 
-# Intellij
-.idea/**
+# Temp files
+*.tmp
+*.log
+
+# IDE — ignore everything under .idea/ except shared run configurations.
+.idea/*
+!.idea/runConfigurations/
 *.ipr
 *.iws
+*.iml
+
+# VS Code
+.vscode/
+.history/
+
+# Local secrets and overrides
+.env
+.env.*
+!.env.example
+local.properties
+gradle-local.properties
+
+# OS
+.DS_Store
+Thumbs.db
