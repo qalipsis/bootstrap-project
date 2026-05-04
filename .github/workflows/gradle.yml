@@ -11,6 +11,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  IN_GITHUB: true
+
 jobs:
   build:
     name: Build (${{ matrix.os }} / JDK ${{ matrix.java }})

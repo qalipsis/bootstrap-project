@@ -79,6 +79,8 @@ class MyBootstrapScenario {
             .verify { result: HttpResult<String, String> ->
                 val code = result.response?.code
                 check(code == 200) { "expected HTTP 200, got $code" }
+            }.configure {
+                name = "verify-http-200"
             }
     }
 }

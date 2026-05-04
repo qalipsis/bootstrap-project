@@ -67,11 +67,13 @@ tasks {
 
     named<RunQalipsis>("qalipsisRunAllScenarios") {
         // Configures the default task to execute all the scenarios.
-        //    configuration(
-        //        "report.export.junit.enabled" to "true",
-        //        "report.export.junit.folder" to project.layout.buildDirectory.dir("test-results/my-new-scenario")
-        //            .get().asFile.path
-        //    )
+        configuration(
+            "report.export.console-live.enabled" to (System.getenv("IN_GITHUB") != "true").toString(),
+            "report.export.console.enabled" to (System.getenv("IN_GITHUB") == "true").toString(),
+            "report.export.junit.enabled" to "true",
+            "report.export.junit.folder" to project.layout.buildDirectory.dir("test-results/my-new-scenario")
+                .get().asFile.path
+        )
     }
 
     //create("executeMyNewScenario", RunQalipsis::class.java) {
