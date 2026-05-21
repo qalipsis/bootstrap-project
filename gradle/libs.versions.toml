@@ -1,6 +1,6 @@
 [versions]
 qalipsis-gradle = "0.1.5"
-bmuschko-docker = "9.4.0"
+bmuschko-docker = "10.0.0"
 shadow = "7.1.2"
 kotest = "5.9.1"
 junit-jupiter = "5.10.3"
