@@ -14,7 +14,9 @@
     {
       "customType": "regex",
       "description": "Track qalipsis.version in gradle.properties against Maven Central",
-      "fileMatch": ["(^|/)gradle\\.properties$"],
+      "managerFilePatterns": [
+        "/(^|/)gradle\\.properties$/"
+      ],
       "matchStrings": [
         "qalipsis\\.version\\s*=\\s*(?<currentValue>[^\\s#]+)"
       ],
