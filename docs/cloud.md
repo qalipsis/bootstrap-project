@@ -21,9 +21,12 @@ user-level `~/.gradle/gradle.properties` (already outside the repo):
 qalipsis.cloud.registry.token=<paste your token here>
 ```
 
-If you need a project-local override (CI, multi-tenant setups), create
-`gradle-local.properties` next to `build.gradle.kts` — it is already in `.gitignore` —
-and put the property there.
+For convenience, a commented-out `qalipsis.cloud.registry.token=` line is already present
+in the project's [`gradle.properties`](../gradle.properties) — but **do not put
+your real token there** unless you can guarantee the file will never be committed. Prefer
+`~/.gradle/gradle.properties` (user-level) or `gradle-local.properties` next to
+`build.gradle.kts` (already in `.gitignore`) for project-local overrides such as CI or
+multi-tenant setups.
 
 ## 3. Enable the Gradle plugin
 

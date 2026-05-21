@@ -1,0 +1,5 @@
+# This is the main configuration file of QALIPSIS, to adapt to your needs.
+
+logging:
+  file:
+    path: logs/qalipsis.log

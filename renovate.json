@@ -1,0 +1,37 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":dependencyDashboard",
+    ":semanticCommits"
+  ],
+  "schedule": ["before 6am on monday"],
+  "timezone": "Europe/Zurich",
+  "labels": ["dependencies"],
+  "prConcurrentLimit": 5,
+  "rangeStrategy": "bump",
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Track qalipsis.version in gradle.properties against Maven Central",
+      "fileMatch": ["(^|/)gradle\\.properties$"],
+      "matchStrings": [
+        "qalipsis\\.version\\s*=\\s*(?<currentValue>[^\\s#]+)"
+      ],
+      "depNameTemplate": "io.qalipsis:qalipsis-platform",
+      "datasourceTemplate": "maven",
+      "registryUrlTemplate": "https://repo.maven.apache.org/maven2",
+      "versioningTemplate": "maven"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchDepNames": ["io.qalipsis:qalipsis-platform"],
+      "matchManagers": ["custom.regex"],
+      "groupName": "qalipsis",
+      "commitMessageTopic": "qalipsis",
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "deps"
+    }
+  ]
+}

@@ -12,6 +12,7 @@ import io.qalipsis.plugins.http.configuration.defaults
 import io.qalipsis.plugins.http.http
 import io.qalipsis.plugins.http.httpApache
 import io.qalipsis.plugins.http.request.HttpMethod
+import java.time.Duration
 import org.apache.hc.core5.http.ContentType
 
 /**
@@ -79,8 +80,12 @@ class MyBootstrapScenario {
             .verify { result: HttpResult<String, String> ->
                 val code = result.response?.code
                 check(code == 200) { "expected HTTP 200, got $code" }
+                val timeToLastByte = result.meters.timeToLastByte
+                check(timeToLastByte != null && timeToLastByte < Duration.ofSeconds(1)) {
+                    "expected HTTP response in 1s, got ${timeToLastByte?.toMillis()} ms"
+                }
             }.configure {
-                name = "verify-http-200"
+                name = "verify-http-call"
             }
     }
 }

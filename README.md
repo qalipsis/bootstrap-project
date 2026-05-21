@@ -58,8 +58,8 @@ The Gradle wrapper is shipped with the project — no Gradle install required.
 ├── gradle.properties                         # Gradle perf flags + optional QALIPSIS version override
 ├── gradle/libs.versions.toml                 # version catalog (plugins + libraries)
 ├── settings.gradle.kts                       # project name (renamed by ./scripts/init.sh)
-├── qalipsis.yml                              # logging / metrics / events config for the runtime
-├── logback.xml                               # log appenders
+├── src/main/resources/qalipsis.yml           # runtime config (logging, metrics, events, plugins)
+├── src/main/resources/qalipsis-logback.xml   # Logback appenders / log levels
 ├── scripts/
 │   ├── init.sh                               # one-shot rename helper (POSIX)
 │   └── init.ps1                              # one-shot rename helper (Windows)
@@ -71,6 +71,19 @@ The Gradle wrapper is shipped with the project — no Gradle install required.
 ├── docker-compose.yml                        # example mock backend (httpbin) for the bundled scenario
 └── .github/workflows/                        # CI: build, run scenarios, release
 ```
+
+## Configuration
+
+Runtime configuration lives in two files under `src/main/resources/`:
+
+- **`qalipsis.yml`** — add any QALIPSIS configuration here (campaign defaults, reporting,
+  metrics, events, plugin-specific properties, …). See the
+  [QALIPSIS configuration reference](https://qalipsis.io/docs/user-documentation/latest/up-and-running/configuration/configure-qalipsis/)
+  for the full list of properties and how to override them via environment variables or
+  system properties.
+- **`qalipsis-logback.xml`** — tune log appenders, levels and patterns here. The file
+  follows the standard
+  [Logback configuration syntax](https://logback.qos.ch/manual/configuration.html).
 
 ## Add a step type or plugin
 
@@ -114,7 +127,7 @@ brings the same image up on `localhost:8080`:
 
 ```bash
 docker compose up -d
-./gradlew qalipsisRunAllScenarios -Phttp.server.url=http://localhost:8080
+./gradlew qalipsisRunAllScenarios
 docker compose down
 ```
 

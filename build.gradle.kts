@@ -18,13 +18,17 @@ description = "QALIPSIS - My bootstrap"
 group = "org.example"
 version = "1.0-SNAPSHOT"
 
+repositories {
+    mavenLocal()
+}
+
 qalipsis {
-    // You can override the version of QALIPSIS to use by the Gradle plugin.
+    // You can override the version of QALIPSIS to use by the Gradle plugin if not done
+    // in the file gradle.properties.
     //version("1.0.0")
 
     plugins {
         // Configure here the plugins you want to use.
-        // for example: apacheCassandra()
         http()
     }
 }
@@ -72,7 +76,8 @@ tasks {
             "report.export.console.enabled" to (System.getenv("IN_GITHUB") == "true").toString(),
             "report.export.junit.enabled" to "true",
             "report.export.junit.folder" to project.layout.buildDirectory.dir("test-results/my-new-scenario")
-                .get().asFile.path
+                .get().asFile.path,
+            "http.server.url" to "http://localhost:8080"
         )
     }
 

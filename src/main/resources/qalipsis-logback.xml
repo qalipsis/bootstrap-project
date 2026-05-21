@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+  <!--
+  In this file, you can define your own logging configuration, if they cannot be specified in the normal QALIPSIS configuration.
+  In case of conflicts between this configuration and the QALIPSIS configuration, the latter will take precedence.
+  -->
+</included>
