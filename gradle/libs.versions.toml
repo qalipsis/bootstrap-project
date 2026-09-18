@@ -1,5 +1,5 @@
 [versions]
-qalipsis-gradle = "0.1.5"
+qalipsis-gradle = "0.1.6"
 bmuschko-docker = "9.4.0"
 shadow = "7.1.2"
 kotest = "5.9.1"
