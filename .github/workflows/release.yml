@@ -17,6 +17,9 @@ jobs:
     name: Build & publish
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      # Secrets cannot be used in step conditions, so the token is exposed as a variable.
+      QALIPSIS_CLOUD_TOKEN: ${{ secrets.QALIPSIS_CLOUD_TOKEN }}
 
     steps:
       - name: Checkout
@@ -30,6 +33,10 @@ jobs:
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
+
+      - name: Start the mock backend
+        # qalipsisRunAllScenarios targets the httpbin of docker-compose.yml on localhost:8080.
+        run: docker compose up -d --wait
 
       - name: Build & verify
         run: ./gradlew clean build qalipsisRunAllScenarios
@@ -49,8 +56,8 @@ jobs:
 
       - name: Publish to QALIPSIS Cloud
         # Only runs if the QALIPSIS_CLOUD_TOKEN secret is configured.
-        if: ${{ secrets.QALIPSIS_CLOUD_TOKEN != '' }}
-        run: ./gradlew qalipsisCloudPublish -Pqalipsis.cloud.registry.token=${{ secrets.QALIPSIS_CLOUD_TOKEN }}
+        if: env.QALIPSIS_CLOUD_TOKEN != ''
+        run: ./gradlew qalipsisCloudPublish -Pqalipsis.cloud.registry.token="$QALIPSIS_CLOUD_TOKEN"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v3

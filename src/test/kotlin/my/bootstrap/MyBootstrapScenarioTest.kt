@@ -2,13 +2,13 @@ package my.bootstrap
 
 import io.kotest.matchers.shouldBe
 import io.qalipsis.runtime.test.QalipsisTestRunner
+import java.time.Duration
 import org.junit.jupiter.api.Test
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.wait.strategy.Wait
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import org.testcontainers.utility.DockerImageName
-import java.time.Duration
 
 /**
  * End-to-end test for the bootstrap scenario.
@@ -18,9 +18,10 @@ import java.time.Duration
  * on [MyBootstrapScenario.myBootstrapScenario]). This means the test does not depend on
  * https://httpbin.org being reachable.
  *
- * Requires a working Docker daemon. CI installs one by default.
+ * Requires a working Docker daemon; the test is skipped where none is available (e.g. the macOS
+ * and Windows GitHub runners).
  */
-@Testcontainers
+@Testcontainers(disabledWithoutDocker = true)
 class MyBootstrapScenarioTest {
 
     @Test

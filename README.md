@@ -180,3 +180,10 @@ products that fund the project's development:
 Even just starring the [GitHub repo](https://github.com/qalipsis), filing issues, or sharing
 a scenario in the [examples repo](https://github.com/qalipsis/qalipsis-examples) is a real
 help — thank you!
+
+## License
+
+The bootstrap project is distributed under the Apache License 2.0, the terms can be read [here](./LICENSE). Projects
+created from it belong to their authors, who choose the license of their own code. Running a scenario relies on the
+QALIPSIS runtime, which is dual-licensed under the GNU AGPL 3.0 or a commercial license, at your choice:
+see [LICENSE-COMMERCIAL.md](https://github.com/qalipsis/qalipsis-oss/blob/main/LICENSE-COMMERCIAL.md).

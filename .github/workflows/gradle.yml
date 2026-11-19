@@ -39,10 +39,18 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Build
+        # The Docker-based test is skipped on macOS and Windows, which provide no Docker for Linux images.
         run: ./gradlew clean build
+
+      - name: Start the mock backend
+        # qalipsisRunAllScenarios targets the httpbin of docker-compose.yml on localhost:8080.
+        # Only the Linux runners provide Docker.
+        if: runner.os == 'Linux'
+        run: docker compose up -d --wait
 
       - name: Run all scenarios
         # Smoke-test the example end-to-end so the bootstrap is always known-good.
+        if: runner.os == 'Linux'
         run: ./gradlew qalipsisRunAllScenarios
 
       - name: Upload distribution archive
