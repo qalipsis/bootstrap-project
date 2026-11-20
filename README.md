@@ -29,7 +29,7 @@ loop.
 
 ## Prerequisites
 
-- **JDK 11 or later** (Temurin recommended).
+- **JDK 11 to 21** (Temurin recommended).
 - A Kotlin-aware editor — [IntelliJ IDEA](https://www.jetbrains.com/idea/),
   [VS Code + Kotlin](https://marketplace.visualstudio.com/items?itemName=fwcd.kotlin), or any
   [IDE that supports Kotlin](https://kotlinlang.org/docs/kotlin-ide.html).
