@@ -23,9 +23,9 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        # The JDK that starts Gradle. Gradle and the scenarios always run on JDK 21 (daemon JVM criteria
-        # and Kotlin toolchain), which Gradle downloads.
-        java: ['25']
+        # The JDK that starts Gradle: the oldest and the newest supported. Gradle and the scenarios always run
+        # on JDK 21 (daemon JVM criteria and Kotlin toolchain), which Gradle downloads.
+        java: ['11', '25']
 
     steps:
       - name: Checkout
