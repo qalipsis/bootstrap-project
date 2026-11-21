@@ -10,7 +10,7 @@ write Kotlin DSL scenarios under `src/main/kotlin`.
 
 ## Tech stack
 
-- Kotlin (JVM) + Gradle 8.5 with the Kotlin DSL
+- Kotlin (JVM) + Gradle 8.14 with the Kotlin DSL; daemon and Kotlin toolchain on JDK 21, whatever JDK launches Gradle
 - QALIPSIS Gradle bootstrap plugin (`io.qalipsis.bootstrap`) — version override in `gradle.properties`
 - Apache HTTP client via the `io.qalipsis.plugins.http` plugin
 - Kotest 5.x + JUnit 5 for tests

@@ -23,7 +23,9 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        java: ['11', '17', '21']
+        # The JDK that starts Gradle. Gradle and the scenarios always run on JDK 21 (daemon JVM criteria
+        # and Kotlin toolchain), which Gradle downloads.
+        java: ['25']
 
     steps:
       - name: Checkout
@@ -54,7 +56,7 @@ jobs:
         run: ./gradlew qalipsisRunAllScenarios
 
       - name: Upload distribution archive
-        if: matrix.os == 'ubuntu-latest' && matrix.java == '11'
+        if: matrix.os == 'ubuntu-latest' && matrix.java == '25'
         uses: actions/upload-artifact@v4
         with:
           name: scenarios-dist

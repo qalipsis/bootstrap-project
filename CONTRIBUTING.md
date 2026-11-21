@@ -36,7 +36,8 @@ running QALIPSIS scenario. Keep that bar in mind when proposing changes.
 - One change per PR. Bundle `README.md` and `CLAUDE.md` updates with the code change they
   describe.
 - Update or add tests when you change runtime behavior.
-- The CI matrix runs Ubuntu / macOS / Windows × JDK 11 / 17 / 21. If your change is OS- or
+- The CI matrix runs Ubuntu / macOS / Windows with JDK 25 to start Gradle; the build itself always runs on
+  JDK 21. If your change is OS- or
   JDK-sensitive, call that out in the description.
 
 ## Licensing

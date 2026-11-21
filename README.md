@@ -29,7 +29,11 @@ loop.
 
 ## Prerequisites
 
-- **JDK 11 to 21** (Temurin recommended).
+- **Any JDK, 8 or later, to start Gradle** — including JDK 22, 25 or newer. Gradle itself and your
+  scenarios then run on **JDK 21**: the Gradle daemon (`gradle/gradle-daemon-jvm.properties`) and the
+  Kotlin toolchain (`kotlin { jvmToolchain(21) }` in `build.gradle.kts`) ask for it, and Gradle downloads it
+  into `~/.gradle/jdks` when it is missing (from the Foojay API, declared in `settings.gradle.kts`). So a
+  newer JDK on your machine never meets an older Gradle or Kotlin. The first build needs internet for it.
 - A Kotlin-aware editor — [IntelliJ IDEA](https://www.jetbrains.com/idea/),
   [VS Code + Kotlin](https://marketplace.visualstudio.com/items?itemName=fwcd.kotlin), or any
   [IDE that supports Kotlin](https://kotlinlang.org/docs/kotlin-ide.html).

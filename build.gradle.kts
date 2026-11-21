@@ -22,6 +22,11 @@ repositories {
     mavenLocal()
 }
 
+// Compile and run the scenarios with JDK 21, whatever Java starts Gradle. Gradle downloads it when it is missing.
+kotlin {
+    jvmToolchain(21)
+}
+
 qalipsis {
     // You can override the version of QALIPSIS to use by the Gradle plugin if not done
     // in the file gradle.properties.
